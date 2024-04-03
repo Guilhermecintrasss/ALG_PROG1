@@ -1,0 +1,6 @@
+dist = int(input("Digite a distância entre 2 pontos em km \n"))
+v = int(input("Digite a velocidade em km \n"))
+t = float(dist/v)
+v = float(v/3.6)
+print("O tempo aproximado para chegar será de " + str(t) + "horas \n")
+print("Essa velocidade em metros por segundo é "+ str(v) + "\n")
