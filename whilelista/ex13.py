@@ -4,10 +4,13 @@ verify = 0
 numantigo = 0
 while(n>i):
     n1 = int(input("Digite o "+str(i+1)+" numero: "))
-    if(numantigo>n1):
-        verify = 1
+    if(i == 0):
+        numantigo = n1
+    else:
+        if(numantigo>n1):
+            verify = 1
 
-    numantigo = n1
+        numantigo = n1
     i = i+1
 if(verify == 1):
     print("A sequencia nao esta em ordem crescente")
