@@ -25,9 +25,10 @@ while(c<n):
                 i = i-1
         else:
             m = a  
-            
+
         b = a
     
     c = c+1
 
 print(m)
+#Não consegui fazer, mas a logica é fazer de 2 em 2, agora como? nao sei
