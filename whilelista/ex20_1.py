@@ -1,16 +1,12 @@
-a = int(input())
-b = int(input())
-m = 0
-if(b>a):
-    aux = a
-    a = b
-    b = aux
-i = b
+def mdc(n1,n2):
+    resto = 1
+    while(resto!=0):
+        resto = n1%n2
+        n1 = n2
+        n2 = resto
+    return n1
 
-while(i>0):
-    if(a%i == 0) and (b%i == 0):
-        m = i
-        i = i-b
+n1 = int(input())
+n2 = int(input())
 
-    i = i-1
-print(m)
+print(mdc(n1,n2))

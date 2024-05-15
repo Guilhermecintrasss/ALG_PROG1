@@ -1,34 +1,27 @@
-#Colocar em ordem crescente e ir fazendo de 2 em 2?
-n = int(input())
-c = 0
+def mdc(n1,n2):
+    resto = 1
+    while(resto!=0):
+        resto = n1%n2
+        n1 = n2
+        n2 = resto
+    return n1
+
+num = int(input())
+i = 0
+a = 0
 b = 0
-while(c<n):
-    a = int(input("Digite o "+str(c)+" numero: "))
-    if(c != 0):
-        m = 0
-
-        if(c>=1):
-
-            if(b>a):
-                aux = a
-                a = b
-                b = aux
-
-            i = b
-            
-            while(i>0):
-
-                if(b!=0):
-                    if(a%i == 0) and (b%i == 0):
-                        m = i
-                        i = i-b
-                i = i-1
-        else:
-            m = a  
-
-        b = a
-    
-    c = c+1
+while(i<num):
+    if(i==0):
+        a = int(input())
+        m = a
+    else:
+        b = int(input())
+        m = mdc(a,b)
+        a = m
+    i = i+1
 
 print(m)
-#Não consegui fazer, mas a logica é fazer de 2 em 2, agora como? nao sei
+    
+
+
+    
