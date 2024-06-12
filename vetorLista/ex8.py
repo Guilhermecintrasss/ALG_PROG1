@@ -1,18 +1,17 @@
-numeros = []
+numeros = input().split(" ")
 menor = 0
-n = int(input())
 i = 0
 posicao = 0
 a = 0
 c = 0
-while(i<n):
-    numeros.append(int(input()))
+while(i<len(numeros)):
+    numeros[i] = int(numeros[i])
     i = i+1
 
-while(c<n):
+while(c<len(numeros)):
     i = c
 
-    while(i<n):
+    while(i<len(numeros)):
         if(i == c):
             menor = numeros[i]
             posicao = i
