@@ -27,5 +27,5 @@ chaves = list(dic.keys()) # Retorna todas chaves do dicionario (as "posições" 
 #chaves -> ['-1' , '3' , '2'] (Transformado em lista)
 i = 0
 while(i<len(chaves)):
-    print("O numero "+ str(chaves[i])+ " Aparece "+ str(dic[chaves[i]])+" Vezes")
+    print("O numero "+ str(chaves[i])+ " aparece "+ str(dic[chaves[i]])+" vezes")
     i+=1
