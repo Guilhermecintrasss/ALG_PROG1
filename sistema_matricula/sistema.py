@@ -121,6 +121,12 @@ def listar_disc():
         print(str(i+1) + " - Disciplina: " + nome)
         i = i+1
 
+def matricular_aluno(cpf_aluno,nome_disc):
+    fp = open("disciplinas.csv","r")
+    linhas = fp.readlines()
+    fp.close()
+    dados = ""
+
 
 
 borda()
@@ -137,8 +143,9 @@ if(op1 == 1):
     print("1 - Cadastrar um aluno")
     print("2 - Remover um aluno")
     print("3 - Editar um aluno")
-    print("4 - listar alunos cadastrados")
-    print("5 - Voltar")
+    print("4 - Listar alunos cadastrados")
+    print("5 - Cadastrar um aluno em uma disciplina")
+    print("6 - Voltar")
     borda()
     op2 = int(input())
 
