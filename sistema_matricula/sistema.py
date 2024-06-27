@@ -154,9 +154,11 @@ def relatorio_matriculas():
     fp = open("disciplinas.csv","r")
     linhas_disc = fp.readlines()
     fp.close()
-    
-    
     i = 0
+    while(i<len(linhas_disc)):
+        
+
+        i = i+1
 
 continua = True
 while continua:
