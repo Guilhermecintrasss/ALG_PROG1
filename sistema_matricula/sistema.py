@@ -107,6 +107,7 @@ def remover_alunos(cpf_remover):
             dados = dados + cpf_aluno + "," + nome
         else:
             removeu = True
+
         i = i+1
     if(removeu == False):
         print("Não foi encontrado nenhum aluno com este CPF")
@@ -114,6 +115,31 @@ def remover_alunos(cpf_remover):
         fp = open("cadastros.csv","w")
         fp.write(dados)
         fp.close()
+        fp = open("disciplinas.csv","r")
+        linhas_disc = fp.readlines()
+        fp.close()
+        i = 0
+        dados_disc = ""
+        while(i<len(linhas_disc)):
+            tudoSemN = linhas_disc[i].split("\n")
+            info = tudoSemN[0].split(",")
+            j = 1
+            dados_disc = dados_disc + info[0]
+            while(j<len(info)):
+                cpf_aluno = info[j]
+                if(j == len(info)-1):
+                    if(cpf_aluno != cpf_remover):
+                        dados_disc =  dados_disc + "," + cpf_aluno + "\n"
+                else:
+                    if(cpf_aluno != cpf_remover):
+                        dados_disc =  dados_disc + "," + cpf_aluno
+                j = j+1
+
+            i = i+1
+        fp = open("disciplinas.csv","w")
+        fp.write(dados_disc)
+        fp.close()
+
 
 def remover_disc(nomedisc_remover):
     fp = open("disciplinas.csv","r")
