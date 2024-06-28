@@ -44,6 +44,8 @@ def ja_matriculado(cpf,nome_disc):
                 else:
                     if(cpf + "\n" == cpfAtual):
                         existe = False
+                j = j+1
+        i = i+1
     return existe
 
 def remover_cpf_disc(cpf,nome_disc):
@@ -169,10 +171,11 @@ def editar_disc(disc_editar):
     dados = ""
     i = 0
     while(i<len(linhas)):
-        info = linhas[i].split(",")
+        tudoSemN = linhas[i].split("n")
+        info = tudoSemN[0].split(",")
         nome_disc = info[0]
         
-        if(disc_editar + "\n" == nome_disc):
+        if(disc_editar == nome_disc):
             print("Nome antigo: " + str(nome_disc))
             print("Digite o novo nome: ")
             novoNome = input()
@@ -182,6 +185,8 @@ def editar_disc(disc_editar):
         j = 1
         while(j < len(info)):
             dados = dados + "," + info[j]
+            j = j+1
+        dados = dados + "\n"
         i = i+1
     #Testar pra ver se funciona e quando edita uma materia ela mantem os CPFS nela
     print(dados)
@@ -251,7 +256,8 @@ def relatorio_matriculas():
     i = 0
     nomes_relatorio = []
     while(i<len(linhas_disc)):
-        info = linhas_disc[i].split(",")
+        tudoSemN = linhas_disc[i].split("\n")
+        info = tudoSemN[0].split(",")
         j = 1
 
         while(j<len(info)):
@@ -264,13 +270,8 @@ def relatorio_matriculas():
                 nome_aluno = info_aluno[1]
                 nome_aluno = nome_aluno.split("\n")
                 nome_aluno = nome_aluno[0]
-
-                if(j != len(info)-1):
-                    if(cpf_disc == cpf_aluno):
-                        nome_no_cpf = nome_aluno
-
-                else:
-                    if(cpf_disc == cpf_aluno):
+                if(cpf_disc == cpf_aluno):
+                        
                         nome_no_cpf = nome_aluno
 
                 c = c+1
@@ -386,7 +387,7 @@ while continua:
 
             print("Digite o nome da disciplina que deseja alterar: ")
             nomedisc = input()
-            editar_alunos(nomedisc)
+            editar_disc(nomedisc)
 
         if(op2 == 4):
             print("Nome / CPF")
