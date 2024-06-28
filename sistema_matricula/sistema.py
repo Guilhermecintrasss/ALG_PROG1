@@ -186,9 +186,9 @@ def editar_disc(disc_editar):
         while(j < len(info)):
             dados = dados + "," + info[j]
             j = j+1
-        dados = dados + "\n"
+        dados = dados
         i = i+1
-    #Testar pra ver se funciona e quando edita uma materia ela mantem os CPFS nela
+
     print(dados)
     fp = open("disciplinas.csv","w")
     fp.write(dados)
