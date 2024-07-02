@@ -33,41 +33,17 @@ def ja_matriculado(cpf,nome_disc):
     existe = False
     while(i<len(linhas_disc)):
         info = linhas_disc[i].split(",")
-        nomeAtual = info[0]
+        nomeAtual = info[0].split("\n")
+        nomeAtual = nomeAtual[0]
         if(nomeAtual == nome_disc):
             j = 1
             while(j<len(info)):
                 cpfAtual = info[j]
-                if(j != len(info)-1):
-                    if(cpf == cpfAtual):
-                        existe = True
-                else:
-                    if(cpf + "\n" == cpfAtual):
-                        existe = False
+                if(cpf == cpfAtual):
+                    existe = True
                 j = j+1
         i = i+1
     return existe
-
-def remover_cpf_disc(cpf,nome_disc):
-    fp = open("disciplinas.csv","r")
-    linhas_disc = fp.readlines()
-    i = 0
-    dados = ""
-    while(i<len(linhas_disc)):
-        info = linhas_disc[i].split(",")
-        nomeAtual = info[0]
-        if(nomeAtual == nome_disc):
-            dados = dados + nomeAtual
-            j = 1
-            while(j<len(info)):
-                cpfAtual = info[j]
-                if(cpf != cpfAtual):
-                    dados = dados + " "
-        else:
-            dados = dados + linhas_disc[i]
-                    
-
-
 
 def borda():
     print("****************************************")
@@ -127,12 +103,10 @@ def remover_alunos(cpf_remover):
             dados_disc = dados_disc + info[0]
             while(j<len(info)):
                 cpf_aluno = info[j]
+                if(cpf_aluno != cpf_remover):
+                    dados_disc =  dados_disc + "," + cpf_aluno
                 if(j == len(info)-1):
-                    if(cpf_aluno != cpf_remover):
-                        dados_disc =  dados_disc + "," + cpf_aluno + "\n"
-                else:
-                    if(cpf_aluno != cpf_remover):
-                        dados_disc =  dados_disc + "," + cpf_aluno
+                    dados_disc = dados_disc + "\n"
                 j = j+1
 
             i = i+1
@@ -150,9 +124,10 @@ def remover_disc(nomedisc_remover):
     i = 0
     while(i<len(linhas)):
         info = linhas[i].split(",")
-        nomedisc = info[0]
-        if(nomedisc != nomedisc_remover+"\n"):
-            dados = dados + nomedisc
+        nomedisc = info[0].split("\n")
+        nomedisc = nomedisc[0]
+        if(nomedisc != nomedisc_remover):
+            dados = dados + linhas[i]
         else:
             removeu = True
         i = i+1
@@ -164,30 +139,59 @@ def remover_disc(nomedisc_remover):
         fp.close()
     
 def editar_alunos(cpf_editar):
-    fp = open("cadastros.csv","r")
-    linhas = fp.readlines()
-    fp.close()
-    dados = ""
-    i = 0
-    while(i<len(linhas)):
-        info = linhas[i].split(",")
-        nome = info[1]
-        cpf_aluno = info[0]
-        if(cpf_editar == cpf_aluno):
-            print("Nome antigo: " + str(nome))
-            print("Digite o novo nome: ")
-            novoNome = input()
-            print("Cpf antigo: " + str(cpf_aluno))
-            novoCpf = input()
-            dados = dados + novoCpf + "," + novoNome + "\n"
-        else:
-            dados = dados + cpf_aluno + "," + nome
-        i = i+1
+    existe = cpf_existe(cpf_editar)
+    if(existe == True):
+        fp = open("cadastros.csv","r")
+        linhas = fp.readlines()
+        fp.close()
+        dados = ""
+        novoCpf = ""
+        i = 0
+        while(i<len(linhas)):
+            info = linhas[i].split(",")
+            nome = info[1]
+            cpf_aluno = info[0]
+            if(cpf_editar == cpf_aluno):
+                print("Nome antigo: " + str(nome))
+                print("Digite o novo nome: ")
+                novoNome = input()
+                print("Cpf antigo: " + str(cpf_aluno))
+                novoCpf = input()
+                dados = dados + novoCpf + "," + novoNome + "\n"
+            else:
+                dados = dados + cpf_aluno + "," + nome
+            i = i+1
     
-    print(dados)
-    fp = open("cadastros.csv","w")
-    fp.write(dados)
-    fp.close()
+        print(dados)
+        fp = open("cadastros.csv","w")
+        fp.write(dados)
+        fp.close()
+        fp = open("disciplinas.csv","r")
+        linhas_disc = fp.readlines()
+        fp.close()
+        i = 0
+        dados_disc = ""
+        while(i<len(linhas_disc)):
+            tudoSemN = linhas_disc[i].split("\n")
+            info = tudoSemN[0].split(",")
+            j = 1
+            dados_disc = dados_disc + info[0]
+            while(j<len(info)):
+                cpf_aluno = info[j]
+                if(cpf_aluno == cpf_editar):
+                    dados_disc =  dados_disc + "," + novoCpf
+                else:
+                    dados_disc =  dados_disc + "," + cpf_aluno 
+                if(j == len(info)-1):
+                    dados_disc = dados_disc + "\n"
+                j = j+1
+
+            i = i+1
+            fp = open("disciplinas.csv","w")
+            fp.write(dados_disc)
+            fp.close()
+    else:
+        print("CPF incorreto")
 
 
 def editar_disc(disc_editar):
@@ -239,7 +243,8 @@ def listar_disc():
     i = 0
     while i < len(linhas):
         info = linhas[i].split(",")
-        nome = info[0]
+        nome = info[0].split("\n")
+        nome = nome[0]
         print(str(i+1) + " - Disciplina: " + nome)
         i = i+1
 
@@ -346,6 +351,11 @@ while continua:
             cadastrar_aluno(nome,cpf)
 
         if(op2 == 2):
+            borda()
+            print("Lista de alunos")
+            listar_alunos()
+            borda()
+        
             print("Digite o CPF do aluno que deseja remover: ")
             cpf = input()
             remover_alunos(cpf)
