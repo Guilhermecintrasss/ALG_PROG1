@@ -21,7 +21,8 @@ def disc_existe(disc):
     existe = False
     while(i<len(linhas)):
         info = linhas[i].split(",")
-        nome = info[0]
+        nome = info[0].split("\n")
+        nome = nome[0]
         if (nome == disc):
             existe = True
         i = i+1
@@ -83,7 +84,6 @@ def remover_alunos(cpf_remover):
             dados = dados + cpf_aluno + "," + nome
         else:
             removeu = True
-
         i = i+1
     if(removeu == False):
         print("Não foi encontrado nenhum aluno com este CPF")
@@ -105,9 +105,9 @@ def remover_alunos(cpf_remover):
                 cpf_aluno = info[j]
                 if(cpf_aluno != cpf_remover):
                     dados_disc =  dados_disc + "," + cpf_aluno
-                if(j == len(info)-1):
-                    dados_disc = dados_disc + "\n"
                 j = j+1
+
+            dados_disc = dados_disc + "\n"
 
             i = i+1
         fp = open("disciplinas.csv","w")
@@ -182,9 +182,9 @@ def editar_alunos(cpf_editar):
                     dados_disc =  dados_disc + "," + novoCpf
                 else:
                     dados_disc =  dados_disc + "," + cpf_aluno 
-                if(j == len(info)-1):
-                    dados_disc = dados_disc + "\n"
                 j = j+1
+
+            dados_disc = dados_disc + "\n"
 
             i = i+1
             fp = open("disciplinas.csv","w")
@@ -249,32 +249,28 @@ def listar_disc():
         i = i+1
 
 def matricular_aluno(cpf_aluno,nome_disc):
-    existe = ja_matriculado(cpf_aluno,nome_disc)
-    if(existe == False):
-        fp = open("disciplinas.csv","r")
-        linhas_disc = fp.readlines()
-        fp.close()
-        dados = ""
-        i = 0
-    
-        while(i<len(linhas_disc)):
-            info = linhas_disc[i].split(",") #com o \n
-            nomedisc = info[0].split("\n")
-            nomedisc = nomedisc[0]
+            fp = open("disciplinas.csv","r")
+            linhas_disc = fp.readlines()
+            fp.close()
+            dados = ""
+            i = 0
+        
+            while(i<len(linhas_disc)):
+                info = linhas_disc[i].split(",") #com o \n
+                nomedisc = info[0].split("\n")
+                nomedisc = nomedisc[0]
 
-            tudocomn = linhas_disc[i].split("\n")
-            if(nome_disc == nomedisc):
-                tudo = tudocomn[0] #Tirei o \n
-                dados = dados + tudo + "," + cpf_aluno + "\n"
-            else:
-                dados = dados + tudocomn[0] + "\n"
-            i = i+1
-        print(dados)
-        fp = open("disciplinas.csv","w")
-        fp.write(dados)
-        fp.close()
-    else:
-        print("Aluno já matriculado")
+                tudocomn = linhas_disc[i].split("\n")
+                if(nome_disc == nomedisc):
+                    tudo = tudocomn[0] #Tirei o \n
+                    dados = dados + tudo + "," + cpf_aluno + "\n"
+                else:
+                    dados = dados + tudocomn[0] + "\n"
+                i = i+1
+            print(dados)
+            fp = open("disciplinas.csv","w")
+            fp.write(dados)
+            fp.close()
 
 def relatorio_matriculas():
     fp = open("cadastros.csv","r")
@@ -378,15 +374,26 @@ while continua:
 
             print("Digite o CPF do aluno que se matriculará:")
             cpf = input()
+            existe = cpf_existe(cpf)
+            if(existe):
+                borda()
+                print("Lista de Disciplinas")
+                listar_disc()
+                borda()
 
-            borda()
-            print("Lista de Disciplinas")
-            listar_disc()
-            borda()
-
-            print("Digite o nome da disciplina a qual ele se matriculará")
-            disc = input()
-            matricular_aluno(cpf,disc)
+                print("Digite o nome da disciplina a qual ele se matriculará")
+                disc = input()
+                matriculado = ja_matriculado(cpf,disc)
+                disciplina_existe = disc_existe(disc)
+                if(disciplina_existe):
+                    if(not matriculado):
+                        matricular_aluno(cpf,disc)
+                    else:
+                        print("Aluno já matriculado")
+                else:
+                    print("Disciplina incorreta")
+            else:
+                print("CPF invalido")
 
         if(op2 == 5):
             print("Nome / CPF")
